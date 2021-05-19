@@ -225,7 +225,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.path_mask = os.path.join(root, '{}.msk'.format(stem))
             self.path_sfrm = os.path.join(root, '{}_xa_{:>02}_0001.sfrm'.format(name, int(run_num)))
         except ValueError:
-            print('Error parametering image name! Expected format: name_run_image.ext (e.g. name_01_0001.raw)')
+            print('Error parsing image name! Expected format: name_run_image.ext (e.g. name_01_0001.raw)')
             return
     
     def load_parameter(self):
