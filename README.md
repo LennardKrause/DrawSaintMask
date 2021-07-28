@@ -7,17 +7,21 @@
  
  ## What to do:
  - move and reshape a circle and a rectangle to cover the beamstop shadow
+  
+ ## Has buttons to:
+ - mask negative values (Pilatus Detectors)
+ - mask horizontal lines (Bruker Photon II Detector)
+ - mask rings, corners etc.
  
- ## Additionally:
- - mask circular regions
+ ## Add circular region masks
    - black circle masks the area it covers
    - green circle unmasks the area it covers
-   - follows hierarchal order (smaller overwrites larger)
- - mask negative values on Pilatus Detectors
- - mask horizontal lines on a Bruker Photon II Detector
+   - artistic arrangements are welcome
+   - follows hierarchal order (small > large)
  
  ## Good to know:
- - objects are allowed to cover the image only partly
+ - the initial rectangle & circle will always be on top
+ - objects are allowed to be placed anywhere
  - to mask a corner
    - cover the corner with a black circle
    - move the green circle outside of the image area
@@ -28,5 +32,5 @@
  ## How it looks:
 ![Image](../main/assets/DrawSaintMask.png)
 
- ## What SAINT sees:
+ ## The xa mask:
 ![Image](../main/assets/DrawSaintMask_xa.png)
