@@ -224,9 +224,10 @@ class MainWindow(QtWidgets.QMainWindow):
             name = '_'.join(_split)
             self.path_mask = os.path.join(root, '{}.msk'.format(stem))
             self.path_sfrm = os.path.join(root, '{}_xa_{:>02}_0001.sfrm'.format(name, int(run_num)))
-        except ValueError:
+            return True
+        except (ValueError, IndexError):
             print('Error parsing image name! Expected format: name_run_image.ext (e.g. name_01_0001.raw)')
-            return
+            return False
     
     def load_parameter(self):
         if os.path.exists(self.path_mask):
@@ -271,9 +272,13 @@ class MainWindow(QtWidgets.QMainWindow):
     
     def load_file_dialog(self):
         self.path_img, _ = QtWidgets.QFileDialog.getOpenFileName(None, 'Open File', self.current_dir, ' '.join(self.formats.keys()), options=QtWidgets.QFileDialog.DontUseNativeDialog)
+        
         if not self.path_img:
             return
-        self.get_paths()
+        
+        if not self.get_paths():
+            return
+        
         self.current_dir = os.path.dirname(self.path_img)
         self.label_title.setText(self.path_img)
         _, ext = os.path.splitext(self.path_img)
