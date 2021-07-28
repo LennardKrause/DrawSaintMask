@@ -31,6 +31,15 @@
  - use the slider to adjust the contrast
  - statusbar shows the intensity at the current mouse position x, y
  
+ ## Can learn new formats:
+  - currently needs:
+    - SAINT detector name tag (e.g. 'CMOS-PHOTONII')
+    - detector dimension (pixels)
+    - header offset in bytes
+    - datatype
+    - rotation?
+  - limited flexibility but nothing is impossible
+ 
  ## How it looks:
 ![Image](../main/assets/DrawSaintMask.png)
 
