@@ -27,3 +27,6 @@
  
  ## How it looks:
 ![Image](../main/assets/DrawSaintMask.png)
+
+ ## What SAINT sees:
+![Image](../main/assets/DrawSaintMask_xa.png)
