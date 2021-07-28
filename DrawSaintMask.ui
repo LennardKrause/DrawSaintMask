@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>686</width>
+    <height>768</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,16 @@
     <property name="spacing">
      <number>0</number>
     </property>
-    <property name="margin">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
      <number>0</number>
     </property>
     <item>
@@ -26,7 +35,16 @@
       <property name="spacing">
        <number>0</number>
       </property>
-      <property name="margin">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
        <number>0</number>
       </property>
       <item>
@@ -75,6 +93,16 @@
      </widget>
     </item>
     <item>
+     <widget class="Line" name="line">
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item>
      <layout class="QHBoxLayout" name="horizontalLayout_bottom">
       <property name="spacing">
        <number>0</number>
@@ -82,38 +110,6 @@
       <property name="topMargin">
        <number>0</number>
       </property>
-      <item>
-       <spacer name="horizontalSpacer_left">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Expanding</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_right">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Expanding</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
      </layout>
     </item>
    </layout>
@@ -136,7 +132,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>686</width>
      <height>24</height>
     </rect>
    </property>
@@ -176,7 +172,7 @@
   </widget>
   <action name="action_open">
    <property name="text">
-    <string>Open</string>
+    <string>Open Image</string>
    </property>
    <property name="font">
     <font>
@@ -189,7 +185,7 @@
   </action>
   <action name="action_save">
    <property name="text">
-    <string>Save</string>
+    <string>Save Mask</string>
    </property>
    <property name="font">
     <font>
@@ -262,7 +258,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Mask Lines</string>
+    <string>Mask Lines (Photon II)</string>
    </property>
    <property name="iconText">
     <string>Mask Lines</string>
