@@ -39,6 +39,7 @@
     - datatype
     - rotation?
   - limited flexibility but nothing is impossible
+  - check _add new detector formats_ in _DrawSaintMask.py_
  
  ## How it looks:
 ![Image](../main/assets/DrawSaintMask.png)
