@@ -35,9 +35,9 @@
   - currently needs:
     - SAINT detector name tag (e.g. 'CMOS-PHOTONII')
     - detector dimensions (in pixels)
-    - header offset in bytes (can be zero)
+    - header size, offset in bytes (can be zero)
     - datatype (e.g. np.int32)
-    - is a rotation necessary?
+    - rotation necessary?
   - limited flexibility but nothing is impossible
   - check **add new detector formats** in **DrawSaintMask.py**
  
