@@ -34,12 +34,12 @@
  ## Can learn new formats:
   - currently needs:
     - SAINT detector name tag (e.g. 'CMOS-PHOTONII')
-    - detector dimension (pixels)
-    - header offset in bytes
-    - datatype
-    - rotation?
+    - detector dimensions (in pixels)
+    - header offset in bytes (can be zero)
+    - datatype (e.g. np.int32)
+    - is a rotation necessary?
   - limited flexibility but nothing is impossible
-  - check _add new detector formats_ in _DrawSaintMask.py_
+  - check **add new detector formats** in **DrawSaintMask.py**
  
  ## How it looks:
 ![Image](../main/assets/DrawSaintMask.png)
