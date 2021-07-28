@@ -25,8 +25,8 @@
  - the initial rectangle & circle will always be on top
  - objects are allowed to be placed anywhere
  - to mask a corner
-   - cover the corner with a black circle
-   - move the green circle outside of the image area
+   - cover the corner with a black circle (as illustrated below)
+   - move the green circle outside of the image area (not necessary)
    - the mask will have the proper dimensions
  - use the slider to adjust the contrast
  - statusbar shows the intensity at the current mouse position x, y
