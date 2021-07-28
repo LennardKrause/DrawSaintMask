@@ -26,4 +26,4 @@
  - statusbar shows the intensity at the current mouse position x, y
  
  ## How it looks:
-![Image](../main/DrawSaintMask.png)
+![Image](../main/assets/DrawSaintMask.png)
