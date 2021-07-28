@@ -1,6 +1,10 @@
 # DrawSaintMask
  Draw X-ray aperture mask (xa) files for the SCXRD data integration engine Saint
  
+ ## Currently understands:
+  - Pilatus3 (.tif)
+  - Photon II (.raw)
+ 
  ## What to do:
  - move and reshape a circle and a rectangle to cover the beamstop shadow
  
