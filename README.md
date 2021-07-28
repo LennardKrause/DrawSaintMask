@@ -1,7 +1,7 @@
 # DrawSaintMask
  Draw X-ray aperture mask (xa) files for the SCXRD data integration engine SAINT
  
- Uses [PyQt5](https://www.riverbankcomputing.com/static/Docs/PyQt5/) & [PyQtGraph](https://www.pyqtgraph.org/)!
+ Uses [PyQt5](https://www.riverbankcomputing.com/static/Docs/PyQt5/), [PyQtGraph](https://www.pyqtgraph.org/) & [QtRangeSlider](https://pypi.org/project/QtRangeSlider/)!
  
  ## Currently understands:
   - [Dectris](https://www.dectris.com/detectors/x-ray-detectors/pilatus3/) Pilatus3 (.tif)
