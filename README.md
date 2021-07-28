@@ -19,7 +19,7 @@
    - move the green circle outside of the image area
    - the mask will have the proper dimensions
  - use the slider to adjust the contrast
- - statusbar shows x, y and intensity
+ - statusbar shows the intensity at the current mouse position x, y
  
  ## How it looks:
 ![Image](../main/DrawSaintMask.png)
