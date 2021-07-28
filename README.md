@@ -2,8 +2,8 @@
  Draw X-ray aperture mask (xa) files for the SCXRD data integration engine Saint
  
  ## Currently understands:
-  - Pilatus3 (.tif)
-  - Photon II (.raw)
+  - [Dectris](https://www.dectris.com/detectors/x-ray-detectors/pilatus3/) Pilatus3 (.tif)
+  - [Bruker](https://www.bruker.com/en/products-and-solutions/diffractometers-and-scattering-systems/single-crystal-x-ray-diffractometers/sc-xrd-components/detectors.html) Photon II (.raw)
  
  ## What to do:
  - move and reshape a circle and a rectangle to cover the beamstop shadow
