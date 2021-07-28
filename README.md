@@ -10,9 +10,9 @@
  
  ## Additionally:
  - mask circular regions
-   - black circles masks the area it covers
-   - green circles unmasks the area it covers
-   - follows hierarchal order (small overwrites large)
+   - black circle masks the area it covers
+   - green circle unmasks the area it covers
+   - follows hierarchal order (smaller overwrites larger)
  - mask negative values on Pilatus Detectors
  - mask horizontal lines on a Bruker Photon II Detector
  
