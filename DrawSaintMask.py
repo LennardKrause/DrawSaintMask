@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, QtCore, QtGui, uic
 import pyqtgraph as pg
-import sys, os
+import sys, os, re
 import numpy as np
 from scipy import ndimage as ndi
 from qtrangeslider import QLabeledRangeSlider
@@ -20,8 +20,9 @@ class MainWindow(QtWidgets.QMainWindow):
         #              : dtype  (datatype)
         #              : rot    (clock-wise by 90 deg, bool)
         #                  key        name        rows  cols offset     dtype    rot
-        self.formats = {'*.raw':('CMOS-PHOTONII', 1024,  768,     0, np.int32, False),
-                        '*.tif':('PILATUS'      , 1043,  981,  4096, np.int32, True ),}
+        self.formats = {'*.raw': ('CMOS-PHOTONII', 1024,  768,     0, np.int32, False),
+                        '*.sfrm':('Bruker'       , None, None,  None,     None, False),
+                        '*.tif': ('PILATUS'      , 1043,  981,  4096, np.int32, True )}
         
         #self.color_mask = (102, 0, 51, 255)
         self.color_mask = (0, 0, 0, 255)
@@ -36,7 +37,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.load_file_dialog()
         
     def init_gui(self):
-        uic.loadUi('DrawSaintMask.ui', self)
+        uic.loadUi(os.path.join(os.path.dirname(__file__), 'DrawSaintMask.ui'), self)
         
         self.glw.setAspectLocked(True)
         self.plt = self.glw.addPlot()
@@ -303,11 +304,16 @@ class MainWindow(QtWidgets.QMainWindow):
         self.path_sfrm = temp_path_sfrm
     
     def load_image(self, img_path, detector_type, rows, cols, offset, datatype, rotate):
-        with open(img_path, 'rb') as f:
-            f.read(offset)
-            data = np.flipud(np.frombuffer(f.read(), datatype).copy().reshape((rows, cols)))
-        if rotate:
-            data = np.rot90(data)
+        if detector_type == 'Bruker':
+            header, data = read_bruker_frame(img_path)
+            detector_type = re.findall('\s*DETTYPE\s*:\s*([\w\W]+?)\s+', header)[0]
+            print(detector_type)
+        else:
+            with open(img_path, 'rb') as f:
+                f.read(offset)
+                data = np.flipud(np.frombuffer(f.read(), datatype).copy().reshape((rows, cols)))
+            if rotate:
+                data = np.rot90(data)
         self.img.setImage(data)
         self.img_dim_y, self.img_dim_x = data.shape
         self.detector_type = detector_type
@@ -403,6 +409,9 @@ class MainWindow(QtWidgets.QMainWindow):
         
         # write the frame
         write_bruker_frame(self.path_sfrm, header, np.flipud(self.msk))
+        # save mask as numpy npy file
+        if True:
+            np.save(os.path.splitext(self.path_mask)[0], np.flipud(self.msk))
         
         # dump parameter dict
         self.parameter_dump()
@@ -518,7 +527,65 @@ def bruker_header():
     header['LEPTOS']  = ['']
     header['CFR']     = ['']
     return header
-    
+
+def read_bruker_frame(fname):
+    '''
+    Read Bruker .sfrm frame
+    - header is returned as continuous stream
+    - information read from header 
+    - detector dimensions (NROWS, NCOLS)
+    - bytes per pixel of image (NPIXELB)
+    - number of pixels in 16 and 32 bit overflowtables (NOVERFL)
+    - data is returned as uint32 2D-Array
+    '''
+    import re
+    #def chunkstring(string, length):
+    #    '''
+    #     return header as list of tuples
+    #      - splits once at ':'
+    #      - keys and values are stripped strings
+    #      - values with more than 1 entry are un-splitted
+    #    '''
+    #    return list(tuple(map(lambda i: i.strip(), string[0+i:length+i].split(':', 1))) for i in range(0, len(string), length)) 
+    #header_list = chunkstring(header, 80)
+    with open(fname, 'rb') as f:
+        # read the first 512 bytes
+        # find keyword 'HDRBLKS' 
+        header_0 = f.read(512).decode()
+        # header consists of HDRBLKS x 512 byte blocks
+        header_blocks = int(re.findall('\s*HDRBLKS\s*:\s*(\d+)', header_0)[0])
+        # read the remaining header
+        header = header_0 + f.read(header_blocks * 512 - 512).decode()
+        # extract frame info:
+        # - rows, cols (NROWS, NCOLS)
+        # - bytes-per-pixel of image (NPIXELB)
+        # - length of 16 and 32 bit overflow tables (NOVERFL)
+        nrows = int(re.findall('\s*NROWS\s*:\s*(\d+)', header)[0])
+        ncols = int(re.findall('\s*NCOLS\s*:\s*(\d+)', header)[0])
+        npixb = int(re.findall('\s*NPIXELB\s*:\s*(\d+)', header)[0])
+        nov16, nov32 = list(map(int, re.findall('\s*NOVERFL\s*:\s*-*\d+\s+(\d+)\s+(\d+)', header)[0]))
+        # calculate the size of the image
+        im_size = nrows * ncols * npixb
+        # bytes-per-pixel to datatype
+        bpp2dt = [None, np.uint8, np.uint16, None, np.uint32]
+        # reshape data, set datatype to np.uint32
+        data = np.frombuffer(f.read(im_size), bpp2dt[npixb]).reshape((nrows, ncols)).astype(np.uint32)
+        # read the 16 bit overflow table
+        # table is padded to a multiple of 16 bytes
+        read_16 = int(np.ceil(nov16 * 2 / 16)) * 16
+        # read the table, trim the trailing zeros
+        table_16 = np.trim_zeros(np.frombuffer(f.read(read_16), np.uint16))
+        # read the 32 bit overflow table
+        # table is padded to a multiple of 16 bytes
+        read_32 = int(np.ceil(nov32 * 4 / 16)) * 16
+        # read the table, trim the trailing zeros
+        table_32 = np.trim_zeros(np.frombuffer(f.read(read_32), np.uint32))
+        # assign values from 16 bit overflow table
+        data[data == 255] = table_16
+        # assign values from 32 bit overflow table
+        data[data == 65535] = table_32
+        return header, data
+
 def write_bruker_frame(fname, fheader, fdata):
     '''
      write a bruker image
